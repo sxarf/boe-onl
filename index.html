@@ -3,36 +3,469 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>boe.onl</title>
-  <link rel="stylesheet" href="style.css">
+  <title>boe.onl | affordable and cheap</title>
+  <link rel="icon" type="image/png" sizes="512x512" href="/image.png"/>
+  <link rel="apple-touch-icon" sizes="512x512" href="/image.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --purple: #a855f7;
+      --purple-dim: rgba(168, 85, 247, 0.15);
+      --purple-glow: rgba(168, 85, 247, 0.35);
+      --bg: #07070d;
+      --surface: rgba(255,255,255,0.03);
+      --border: rgba(255,255,255,0.07);
+      --grey: #888;
+      --grey-dark: #444;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Space Grotesk', sans-serif;
+      background: var(--bg);
+      color: #fff;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      opacity: 0.025;
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    .topbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 62px;
+      background: rgba(7, 7, 13, 0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 48px;
+      z-index: 1000;
+    }
+
+    .logo {
+      font-family: 'Syne', sans-serif;
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--purple);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 36px;
+    }
+
+    .nav-links a {
+      color: var(--grey);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: lowercase;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: #fff; }
+
+    .download-btn {
+      background: var(--purple);
+      color: #fff;
+      padding: 9px 22px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: 0.3px;
+      transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+    }
+
+    .download-btn:hover {
+      transform: translateY(-2px);
+      background: #b97cf8;
+      box-shadow: 0 8px 28px var(--purple-glow);
+    }
+
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 120px 40px 80px;
+      position: relative;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 50% 0%, rgba(168, 85, 247, 0.12) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 40% at 20% 80%, rgba(100, 50, 160, 0.07) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .hero-bg::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(168,85,247,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(168,85,247,0.04) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, black 0%, transparent 100%);
+    }
+
+    .hero > * { position: relative; z-index: 1; }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: var(--purple-dim);
+      border: 1px solid rgba(168, 85, 247, 0.25);
+      color: var(--purple);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 32px;
+    }
+
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      background: var(--purple);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; box-shadow: 0 0 0 0 var(--purple-glow); }
+      50% { opacity: 0.6; box-shadow: 0 0 0 4px transparent; }
+    }
+
+    .hero h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: 88px;
+      font-weight: 800;
+      line-height: 1;
+      margin-bottom: 20px;
+      background: linear-gradient(150deg, #ffffff 30%, #c084fc 70%, #a855f7 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: -2px;
+    }
+
+    .hero p {
+      font-size: 17px;
+      color: #5a5a6e;
+      margin-bottom: 44px;
+      max-width: 440px;
+      line-height: 1.6;
+      font-weight: 500;
+    }
+
+    .hero-btns {
+      display: flex;
+      gap: 14px;
+      justify-content: center;
+    }
+
+    .btn-primary {
+      background: var(--purple);
+      color: #fff;
+      padding: 15px 38px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 15px;
+      transition: all 0.2s;
+      letter-spacing: 0.2px;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      background: #b97cf8;
+      box-shadow: 0 16px 40px var(--purple-glow);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: #aaa;
+      padding: 15px 38px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 15px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: all 0.2s;
+    }
+
+    .btn-secondary:hover {
+      border-color: rgba(168, 85, 247, 0.4);
+      color: #fff;
+      background: var(--purple-dim);
+    }
+
+    .section-divider {
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border) 30%, var(--border) 70%, transparent);
+      margin: 0 auto;
+    }
+
+    .features {
+      padding: 96px 40px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      text-align: center;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--purple);
+      margin-bottom: 14px;
+    }
+
+    .features h2 {
+      text-align: center;
+      font-family: 'Syne', sans-serif;
+      font-size: 36px;
+      font-weight: 800;
+      margin-bottom: 56px;
+      color: #e5e5e5;
+      letter-spacing: -0.5px;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .feature-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 32px 28px;
+      transition: border-color 0.25s, transform 0.25s, background 0.25s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .feature-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(168,85,247,0.4), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .feature-card:hover {
+      border-color: rgba(168, 85, 247, 0.25);
+      transform: translateY(-4px);
+      background: rgba(168, 85, 247, 0.04);
+    }
+
+    .feature-card:hover::before { opacity: 1; }
+
+    .card-icon {
+      width: 40px;
+      height: 40px;
+      background: var(--purple-dim);
+      border: 1px solid rgba(168,85,247,0.2);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+      font-size: 18px;
+    }
+
+    .feature-card h3 {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: #ddd;
+      letter-spacing: 0.2px;
+    }
+
+    .feature-card p {
+      color: #555;
+      font-size: 13.5px;
+      line-height: 1.65;
+      font-weight: 500;
+    }
+
+    /* ── CTA SECTION ── */
+    .cta-section {
+      padding: 80px 40px 100px;
+      text-align: center;
+      position: relative;
+    }
+
+    .cta-section::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 60% 80% at 50% 100%, rgba(168, 85, 247, 0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .cta-section h2 {
+      font-family: 'Syne', sans-serif;
+      font-size: 40px;
+      font-weight: 800;
+      margin-bottom: 12px;
+      letter-spacing: -0.5px;
+      color: #e5e5e5;
+    }
+
+    .cta-section p {
+      color: #555;
+      font-size: 15px;
+      margin-bottom: 36px;
+      font-weight: 500;
+    }
+
+    .cta-btn {
+      display: inline-block;
+      background: var(--purple);
+      color: #fff;
+      padding: 18px 52px;
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 16px;
+      letter-spacing: 0.3px;
+      transition: all 0.25s;
+      position: relative;
+      z-index: 1;
+    }
+
+    .cta-btn:hover {
+      transform: translateY(-3px);
+      background: #b97cf8;
+      box-shadow: 0 20px 50px var(--purple-glow);
+    }
+
+    .footer {
+      padding: 32px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: #333;
+      font-size: 13px;
+      border-top: 1px solid var(--border);
+    }
+
+    .footer-logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 15px;
+      color: #333;
+      letter-spacing: 1px;
+    }
+  </style>
 </head>
 <body>
-  <div class="grid-bg" id="grid"></div>
   <nav class="topbar">
     <div class="logo">boe.onl</div>
-    <div class="content">
-      <a href="/">home</a>
-      <a href="/products">products</a>
-      <a href="/discordbot">discord bot</a>
-      <a href="https://discord.gg/MhHgGwgH3h">discord</a>
+    <div class="nav-links">
+      <a href="#features">features</a>
+      <a href="https://wyvern.sh/public/loader/WyvernLoader.exe">download</a>
+      <a href="https://discord.gg/bkqbj7w6">support</a>
     </div>
+    <a href="#rtd" class="download-btn">download loader</a>
   </nav>
-  
-  <div class="title-container">
+
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="status-badge">
+      <span class="status-dot"></span>
+      down / in dev
+    </div>
     <h1>boe.onl</h1>
-    <p>professional mod menu</p>
-  </div>
-  
-  <section id="reviews" class="reviews">
-    <div class="review reveal">
-      <p>"currently no reviews"</p>
-      <span>- if you are a buyer send me a review</span>
+    <p>a cheap, affordable mod menu for your gorilla tag experience.</p>
+    <div class="hero-btns">
+      <a href="https://wyvern.sh/public/loader/WyvernLoader.exe" class="btn-primary">download now</a>
+      <a href="#features" class="btn-secondary">learn more</a>
     </div>
   </section>
-  
-  <footer>
-    &copy; 2026 boe.onl - all rights reserved
+
+  <div class="section-divider"></div>
+
+  <section class="features" id="features">
+    <div class="section-label">what you get</div>
+    <h2>features</h2>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="card-icon">🎮</div>
+        <h3>easy to use</h3>
+        <p>boe is built to be beginner friendly. we keep things simple so you can get in and start dominating right away.</p>
+      </div>
+      <div class="feature-card">
+        <div class="card-icon">⚡</div>
+        <h3>packed with features</h3>
+        <p>boe is loaded with overpowered, hand-picked features. everything you need all in one menu.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <section class="features" id="qae">
+    <div class="section-label">seamless setup</div>
+    <h2>quick and easy</h2>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="card-icon">🛒</div>
+        <h3>it's in the title.</h3>
+        <p>boe will always be easy to purchase and redeem. instant setup, no headaches. powered by <strong style="color:#777">reseller.best</strong>.</p>
+      </div>
+      <div class="feature-card">
+        <div class="card-icon">💉</div>
+        <h3>fast injection</h3>
+        <p>we use wyvern loader — the best mono injector available. rock solid, fast, and reliable. powered by <strong style="color:#777">wyvern.sh/skiddermc.nl</strong>.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <section class="cta-section" id="rtd">
+    <h2>ready to dominate?</h2>
+    <p>grab boe and take over every gorilla tag lobby.</p>
+    <a href="https://reseller.best/product/boe" class="cta-btn">get boe now</a>
+  </section>
+
+  <footer class="footer">
+    <span class="footer-logo">boe.onl</span>
+    <span>&copy; 2026 boe.onl — all rights reserved.</span>
   </footer>
-  <script src="script.js"></script>
+
 </body>
 </html>
